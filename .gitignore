@@ -1,0 +1,25 @@
+# Ignore database files in flask-app
+flask-app/J1939.db
+
+# Ignore environment files and directories for Flask app
+flask-app/.env
+flask-app/instance/
+flask-app/__pycache__/
+flask-app/*.pyc
+
+# Ignore node_modules and build files from React app
+react-ui-app/node_modules/
+react-ui-app/build/
+react-ui-app/.env
+
+# General OS files
+*.DS_Store   # For macOS
+Thumbs.db    # For Windows
+
+# Logs
+*.log
+
+# Ignore any other temporary files or directories
+*.tmp
+*.swp
+*.bak
