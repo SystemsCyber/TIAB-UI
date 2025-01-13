@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SocketIO Data Stream</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>Data Stream 101</h1>
+    <div id="data"></div>
+    <script>
+      // Connect to the server
+      var socket = io("http://localhost:5001");
+
+      // Listen for the 'data_stream' event
+      socket.on("temperature_update", function (msg) {
+        var dataDiv = document.getElementById("data");
+        dataDiv.innerHTML += "<p>Data recieved-: " + msg.data + "</p>";
+      });
+
+      socket.on("connect", function () {
+        console.log("Connected to server-1");
+      });
+
+      socket.on("disconnect", function () {
+        console.log("Disconnected from server");
+      });
+    </script>
+  </body>
+</html>

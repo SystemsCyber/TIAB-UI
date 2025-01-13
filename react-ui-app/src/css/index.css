@@ -1,0 +1,512 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh-150px);
+}
+
+.left-column {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 10px;
+    overflow-y: auto;
+    transition: opacity 0.3s, pointer-events 0.3s;
+    max-height: calc(100hv-500px);
+}
+
+/* Enabled state */
+.left-column.enabled {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Disabled state */
+.left-column.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    /* Disables interaction */
+}
+
+.right-column {
+    width: 200px;
+    background-color: #ccc;
+    color: #fff;
+    padding: 10px;
+    height: 100vh;
+    transition: width 0.3s ease;
+}
+
+.right-column.collapsed {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.divider {
+    width: 10px;
+    background-color: #888;
+    cursor: pointer;
+    position: relative;
+    height: 100vh;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider:hover {
+    background-color: #666;
+}
+
+.nudge {
+    color: #fff;
+    font-size: 14px;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+
+/* Add a bevel effect to the divider */
+.divider:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #888;
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+}
+
+.collapsed .nudge {
+    transform: rotate(180deg);
+    /* Flip arrow direction when collapsed */
+}
+
+
+/* Top header in the left column*/
+/* Container to hold the images and text */
+.container-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 2px solid #1E4D2B;
+    /* 2px bottom border */
+    padding: 10px 0;
+    background-color: #fff;
+    /* Add some vertical padding */
+}
+
+/* Styling for images */
+.container-header img {
+    height: 50px;
+    /* Set images to 30px height */
+    margin-right: 0px;
+    /* Space between images */
+}
+
+/* Styling for the text */
+.container-header span {
+    font-size: 1.5rem;
+    /* Increase font size */
+    font-weight: bold;
+    /* Make text bold */
+}
+
+/* Enabled state */
+.enabled {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Disabled state */
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    /* Disables interaction */
+}
+
+.gauge-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Enables wrapping */
+    gap: 10px;
+    /* Adds space between items */
+}
+
+.gauge-item {
+    flex: 0 0 315px;
+    /* Fixed width */
+    height: auto;
+    /* Fixed height */
+    background-color: #eee;
+    text-align: center;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    /* Centers content vertically */
+    justify-content: center;
+    /* Centers content horizontally */
+}
+
+/* Souce Address table */
+/* Source Address table */
+.selectable-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0px auto;
+    font-family: Arial, sans-serif;
+}
+
+.list-item {
+    padding: 15px;
+    /* Increased padding for touch devices */
+    margin: 5px 0;
+    /* Space between items */
+    background-color: #4CAF50;
+    /* Light green background */
+    border-radius: 5px;
+    /* Rounded corners for a better look */
+    cursor: pointer;
+    /* Pointer cursor for interactivity */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    /* Smooth feedback effects */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for visual depth */
+}
+
+/* Hover effect for cursor devices (optional for touchscreen) */
+.list-item:hover {
+    background-color: #d4edda;
+    /* Slightly darker green */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    /* Elevation effect on hover */
+}
+
+/* Tap/active state for touchscreens */
+.list-item:active {
+    background-color: #c8e6c9;
+    /* Darker green for tap feedback */
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+    /* Sunken effect */
+    transform: scale(0.98);
+    /* Slightly shrink for tactile feedback */
+}
+
+/* Selected state */
+.list-item.selected {
+    background-color: #a5d6a7;
+    /* Distinct green for selected state */
+    color: #005;
+    /* Darker text for readability */
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    /* Slightly stronger shadow */
+}
+
+/* Ensure text is centered vertically and horizontally */
+.list-item>span {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    /* Increase font size for better readability */
+}
+
+/* Optional: Responsive design for smaller devices */
+@media (max-width: 768px) {
+    .list-item {
+        padding: 20px;
+        font-size: 18px;
+        /* Larger font size for touch devices */
+    }
+}
+
+
+
+/*Can data section css */
+
+.can-data-section {
+    display: flex;
+    height: calc(100vh - 60px);
+    /* Adjust for any header height, here assuming 60px */
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.can-data-section-left-column {
+    flex: 1;
+    /* Left column takes up equal space */
+    overflow: hidden;
+    /* Prevent overflow from spilling outside */
+    border-right: 1px solid #ddd;
+    /* Optional border between columns */
+    background-color: #f0f0f0;
+}
+
+.can-data-section-right-column {
+    flex: 7;
+    /* Right column takes more space */
+    display: flex;
+    /* Flexbox for the inner components */
+    flex-direction: column;
+    overflow-y: auto;
+    /* Adds a vertical scrollbar if needed */
+    overflow-x: hidden;
+    /* Prevents horizontal scrolling */
+    padding: 5px;
+    background-color: #e0e0e0;
+    max-height: 100%;
+    /* Ensures the column respects its container height */
+}
+
+
+
+
+
+/* PGN Table */
+
+.fancy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.fancy-table th,
+.fancy-table td {
+    padding: 3px;
+    text-align: center;
+}
+
+.fancy-table thead {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.fancy-table tr:nth-child(even) {
+    background-color: #dff;
+}
+
+.fancy-table tr:hover {
+    background-color: #dff;
+}
+
+.fancy-table th {
+    border-bottom: 1px solid #ddd;
+}
+
+.fancy-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+
+.fancy-table th:nth-child(1),
+/* Description column */
+.fancy-table td:nth-child(1) {
+    width: 30px;
+    word-wrap: break-word;
+    /* Ensures words wrap to the next line */
+    white-space: normal;
+    /* Allows text to wrap */
+    overflow: visible;
+    /* Ensures no clipping */
+}
+
+.fancy-table th:nth-child(2),
+/* Description column */
+.fancy-table td:nth-child(2) {
+    width: 30px;
+    word-wrap: break-word;
+    /* Ensures words wrap to the next line */
+    white-space: normal;
+    /* Allows text to wrap */
+    overflow: visible;
+    /* Ensures no clipping */
+}
+
+.fancy-table th:nth-child(3),
+/* Description column */
+.fancy-table td:nth-child(3) {
+    width: 250px;
+    word-wrap: break-word;
+    /* Ensures words wrap to the next line */
+    white-space: normal;
+    /* Allows text to wrap */
+    overflow: visible;
+    /* Ensures no clipping */
+}
+
+.fancy-table th:nth-child(4),
+/* Description column */
+.fancy-table td:nth-child(5) {
+    width: 20px;
+    word-wrap: break-word;
+    /* Ensures words wrap to the next line */
+    white-space: normal;
+    /* Allows text to wrap */
+    overflow: visible;
+    /* Ensures no clipping */
+}
+
+/* Target all columns starting from the fourth */
+.fancy-table td:nth-child(n+6) {
+    /* Your styles for the fourth column and beyond */
+    word-wrap: normal;
+    white-space: normal;
+    overflow: visible;
+    font-weight: 600;
+    text-align: center;
+    /* Center-align content */
+    cursor: pointer;
+    /* Show pointer cursor to indicate clickability */
+    background-color: #f0f0f0;
+    /* Light background for button effect */
+    border: 1px solid #ccc;
+    /* Add border to look like a button */
+    border-radius: 5px;
+    /* Round corners for a button look */
+    padding: 10px;
+    /* Add padding for better appearance */
+    transition: background-color 0.3s ease;
+    /* Smooth feedback effect */
+    position: relative;
+    /* Required for menu positioning */
+}
+
+
+/* Indicate a pressed or tapped state */
+.fancy-table td:nth-child(n+6):active {
+    background-color: #d6d6d6;
+    /* Change background color when tapped */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+.fancy-table td:nth-child(n+6)::after {
+    content: "…";
+    /* Horizontal ellipsis */
+    font-size: 14px;
+    /* Adjust font size for dots */
+    color: #ccc;
+    /* Dot color */
+    position: absolute;
+    /* Absolute positioning for placement */
+    top: 5px;
+    /* Distance from the top of the cell */
+    right: 5px;
+    /* Distance from the right of the cell */
+    display: inline-block;
+    cursor: pointer;
+    /* Pointer cursor for interactivity */
+    width: 40px;
+    /* Oval width (longer than height for oval) */
+    height: 10px;
+    /* Oval height */
+    line-height: 9px;
+    /* Center dots vertically */
+    text-align: center;
+    /* Center dots horizontally */
+    border-radius: 10px;
+    /* Makes it oval (half the height for radius) */
+    background: #f0f0f0;
+    /* Background color for oval */
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2), inset -1px -1px 2px rgba(255, 255, 255, 0.7);
+    /* Creates a sunken effect for the oval */
+    transition: box-shadow 0.2s ease;
+    /* Smooth interaction feedback */
+}
+
+/* Interaction feedback when clicked or tapped */
+.fancy-table td:nth-child(n+6)::after:active {
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3), inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+    /* Makes the bevel deeper on click/tap */
+}
+
+
+/* Command prompt */
+
+.command-prompt {
+    position: fixed;
+    bottom: 0;
+    width: 310px;
+    height: 150px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+    z-index: 1000;
+
+    border-top: 2px solid #444;
+}
+
+.output-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #222;
+    border-bottom: 1px solid #444;
+}
+
+.command-output div {
+    margin-bottom: 5px;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.prompt {
+    margin-right: 5px;
+}
+
+.command-input {
+    flex-grow: 1;
+    background-color: black;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: monospace;
+    font-size: 16px;
+    caret-color: white;
+}
+
+.command-input::placeholder {
+    color: gray;
+}
+
+.command-input:focus::placeholder {
+    color: transparent;
+}
+
+/* SPN Formatting */
+
+.spn {
+    font-size: 10px;
+    color: red;
+}
+
+.no-spn {
+    color: transparent;
+}
