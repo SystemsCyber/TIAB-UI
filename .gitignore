@@ -1,6 +1,5 @@
 # Ignore database files in flask-app
-flask-app/J1939.db
-
+flask-app/J1939db.json
 # Ignore environment files and directories for Flask app
 flask-app/.env
 flask-app/instance/
