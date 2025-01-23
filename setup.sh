@@ -1,4 +1,5 @@
 #!/bin/bash
+# Update 0.1v
 
 # Define paths
 FLASK_APP_DIR="flask-app"
@@ -56,7 +57,16 @@ start_apps() {
     source venv/bin/activate
     FLASK_APP=app.py flask run --host=0.0.0.0 --port=$FLASK_PORT &
     FLASK_PID=$!
+    echo "Flask PID-> $FLASK_PID" 
     echo $FLASK_PID > flask_app.pid
+    # Check if Flask started successfully
+    if ps -p $FLASK_PID > /dev/null
+    then
+        echo "Flask app started successfully with PID $FLASK_PID"
+        echo $FLASK_PID > flask_app.pid
+    else
+        echo "Failed to start Flask app."
+    fi
     deactivate
     cd ..
 
@@ -75,29 +85,34 @@ start_apps() {
 # Function to stop the applications
 stop_apps() {
     echo "Stopping Flask app..."
+    cd $FLASK_APP_DIR
     if [ -f flask_app.pid ]; then
         FLASK_PID=$(cat flask_app.pid)
-        kill $FLASK_PID
+        kill -9 $FLASK_PID
         rm flask_app.pid
         echo "Flask app stopped."
     else
         echo "Flask app is not running."
     fi
-
+    cd ..
+    cd $REACT_APP_DIR
     echo "Stopping React app..."
     if [ -f react_app.pid ]; then
         REACT_PID=$(cat react_app.pid)
-        kill $REACT_PID
+        kill -9 $REACT_PID
         rm react_app.pid
         echo "React app stopped."
     else
         echo "React app is not running."
     fi
+    cd ..
 }
 
 # Function to check the status of the applications
 check_status() {
     echo "Checking Flask app status..."
+    cd $FLASK_APP_DIR
+
     if [ -f flask_app.pid ]; then
         FLASK_PID=$(cat flask_app.pid)
         if ps -p $FLASK_PID > /dev/null; then
@@ -108,8 +123,9 @@ check_status() {
     else
         echo "Flask app is not running."
     fi
-
+    cd ..
     echo "Checking React app status..."
+    cd $REACT_APP_DIR
     if [ -f react_app.pid ]; then
         REACT_PID=$(cat react_app.pid)
         if ps -p $REACT_PID > /dev/null; then
@@ -120,6 +136,7 @@ check_status() {
     else
         echo "React app is not running."
     fi
+    cd ..
 }
 
 # Function to update the code from the repository
