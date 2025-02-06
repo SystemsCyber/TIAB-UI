@@ -1,5 +1,5 @@
 #!/bin/bash
-# Update 0.1v
+# Update 0.2v
 
 # Define paths
 FLASK_APP_DIR="flask-app"
@@ -105,6 +105,13 @@ stop_apps() {
     else
         echo "React app is not running."
     fi
+    # Ensure no other React processes are running on port 3000
+    REACT_PID_ACTIVE=$(lsof -ti:3000)
+    if [ -n "$REACT_PID_ACTIVE" ]; then
+        echo "Killing remaining React process (PID: $REACT_PID_ACTIVE)..."
+        kill -9 $REACT_PID_ACTIVE
+    fi
+
     cd ..
 }
 
